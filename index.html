@@ -745,11 +745,11 @@
       margin-top: 2px;
     }
 
-    /* CERTIFICATIONS */
+    /* CERTIFICATIONS & MODAL */
     .cert-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
+      gap: 16px;
     }
 
     @media (max-width:680px) {
@@ -760,59 +760,278 @@
 
     .cert {
       display: flex;
-      gap: 12px;
+      gap: 14px;
       align-items: flex-start;
       background: rgba(19, 27, 40, 0.65);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius);
-      padding: 16px 18px;
+      border-radius: 14px;
+      padding: 20px;
       font-size: 13.5px;
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s, box-shadow 0.3s;
+      position: relative;
     }
-
-    .cert-link {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 8px 14px;
-      border-radius: 8px;
-      background: #22d3ee;
-      color: #111;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      transition: .3s;
-    }
-
-    .cert-link:hover {
-      background: #67e8f9;
-      transform: translateY(-2px);
-    }
-
 
     .cert:hover {
-      border-color: rgba(45, 212, 191, 0.4);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 24px -8px rgba(45, 212, 191, 0.2);
+      border-color: rgba(45, 212, 191, 0.45);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px -10px rgba(45, 212, 191, 0.25);
     }
 
-    .cert .mark {
+    .cert-icon-wrapper {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--teal-soft);
+      border: 1px solid rgba(45, 212, 191, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: var(--teal);
-      font-weight: 700;
       flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    .cert:hover .cert-icon-wrapper {
+      background: rgba(45, 212, 191, 0.22);
+      transform: scale(1.08) rotate(-4deg);
+      color: #22d3ee;
+      box-shadow: 0 0 15px rgba(45, 212, 191, 0.3);
+    }
+
+    .cert-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
     }
 
     .cert .name {
       color: var(--ink);
-      font-weight: 500;
+      font-weight: 600;
+      font-size: 14.5px;
+      line-height: 1.4;
     }
 
     .cert .src {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 6px;
       color: var(--ink-faint);
       font-size: 12px;
       margin-top: 2px;
+    }
+
+    .cert-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 8px 16px;
+      border-radius: 100px;
+      background: rgba(45, 212, 191, 0.1);
+      color: var(--teal);
+      border: 1px solid rgba(45, 212, 191, 0.3);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      width: fit-content;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .cert-link-btn:hover {
+      background: var(--teal);
+      color: #0b0f17;
+      border-color: var(--teal);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(45, 212, 191, 0.35);
+    }
+
+    .cert-link-btn svg {
+      width: 15px;
+      height: 15px;
+      transition: transform 0.2s ease;
+    }
+
+    .cert-link-btn:hover svg {
+      transform: scale(1.15);
+    }
+
+    /* CERTIFICATE VIEW-ONLY MODAL */
+    .cert-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 10, 16, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .cert-modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .cert-modal {
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 920px;
+      height: 88vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85), 0 0 40px rgba(45, 212, 191, 0.18);
+      transform: scale(0.95) translateY(12px);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .cert-modal-backdrop.active .cert-modal {
+      transform: scale(1) translateY(0);
+    }
+
+    .cert-modal-header {
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      background: rgba(19, 27, 40, 0.95);
+    }
+
+    .cert-modal-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .cert-modal-icon-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--teal-soft);
+      border: 1px solid rgba(45, 212, 191, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--teal);
+    }
+
+    .cert-modal-title-group h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .cert-modal-title-group p {
+      font-size: 12px;
+      color: var(--ink-dim);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .view-only-badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 100px;
+      background: rgba(255, 120, 73, 0.15);
+      color: var(--coral);
+      border: 1px solid rgba(255, 120, 73, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .cert-modal-close {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--ink-dim);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .cert-modal-close:hover {
+      background: rgba(255, 120, 73, 0.2);
+      border-color: var(--coral);
+      color: var(--coral);
+      transform: rotate(90deg);
+    }
+
+    .cert-modal-body {
+      flex: 1;
+      position: relative;
+      background: #0b0f17;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cert-iframe-wrapper {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .cert-iframe-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #fff;
+    }
+
+    .cert-iframe-protection-mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 44px;
+      background: transparent;
+      z-index: 10;
+      pointer-events: auto;
+    }
+
+    .cert-modal-footer {
+      padding: 12px 24px;
+      background: rgba(19, 27, 40, 0.95);
+      border-top: 1px solid var(--line);
+      font-size: 12px;
+      color: var(--ink-faint);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .cert-security-note {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--ink-dim);
     }
 
     /* CONTACT */
@@ -928,18 +1147,12 @@
       <div>
         <span class="eyebrow">Integrated MCA · Class of 2027</span>
         <h1>Neetha T Usuff</h1>
-        <h3 class="hero-title">Passionate About Technology and Continuous Learning</h3>
+        <h3 class="hero-title">Software Developer & QA Engineer</h3>
 
         <p class="hero-description">
-          Turning ideas into meaningful digital solutions through curiosity,
-          creativity, and continuous learning.
+          Integrated MCA student with practical experience in software development, test automation, and data analysis.
+          Experienced in building responsive web applications and validating software quality.
         </p>
-
-        <p class="hero-description">
-          Always exploring new technologies, embracing challenges, and striving
-          to create software that makes a positive impact.
-        </p>
-
 
         <div class="hero-meta">
           <a href="mailto:neethatusuff05@gmail.com">
@@ -985,15 +1198,17 @@
         <h2>Who I am</h2>
       </div>
       <div class="about-text">
-
-        <div class="about-text">
-          <p>
-            I'm a <strong>5th Year Integrated MCA student</strong> passionate about technology, innovation, and
-            continuous learning. With a strong foundation in <strong>Java, Python, web development, and software
-              testing</strong>, I'm eager to build meaningful solutions, embrace new challenges, and grow as a software
-            professional.
-          </p>
-        </div>
+        <p>
+          I am a <strong>5th Year Integrated MCA student</strong> at Saintgits College of Engineering. My core expertise
+          covers <strong>Java, Python, Web Development, and Software Quality Assurance (QA)</strong>.
+        </p>
+        <p>
+          Through industry internships, I have built web applications with React.js & Node.js, trained Machine Learning
+          models using Python and Pandas, and executed manual and automated testing suites. I am actively seeking
+          full-time and internship opportunities in software engineering and QA.
+        </p>
+      </div>
+    </div>
   </section>
 
   <section id="experience">
@@ -1020,16 +1235,18 @@
         <h2>What I've built</h2>
       </div>
       <div class="proj-featured">
-        <span class="eyebrow">Featured · 2024</span>
+        <span class="eyebrow">Featured Project · 2024</span>
         <h3>AgeWell — Senior Care Management System</h3>
-        <p class="desc">A full-stack web application managing senior citizen health records, appointments, and automated
-          reminders — built solo, from requirement analysis through deployment.</p>
+        <p class="desc">A full-stack healthcare web portal designed to assist senior citizens and care providers in
+          managing medical records, appointment schedules, and routine medication alerts.</p>
         <ul>
-          <li>Architected a MySQL relational database with a PHP backend for secure CRUD operations</li>
-          <li>Built a responsive, accessible UI optimized for usability</li>
-          <li>Delivered a complete, production-ready system as sole developer</li>
+          <li>Designed a normalized MySQL relational database connected with a PHP backend for secure patient data
+            handling</li>
+          <li>Engineered an accessible, mobile-responsive UI tailored for elderly usability and simple navigation</li>
+          <li>Implemented role-based access control and validated data inputs to ensure system security and reliability
+          </li>
         </ul>
-        <div class="stack"><span>PHP</span><span>MySQL</span><span>HTML</span><span>CSS</span><span>JavaScript</span>
+        <div class="stack"><span>PHP</span><span>MySQL</span><span>HTML5</span><span>CSS3</span><span>JavaScript</span>
         </div>
       </div>
 
@@ -1057,9 +1274,9 @@
   <section id="contact">
     <div class="wrap reveal">
       <div class="contact-box">
-        <h2>Let's build something</h2>
-        <p>Open to internships and entry-level opportunities. Passionate about learning, collaborating, and contributing
-          to meaningful software projects. Feel free to reach out—I'd love to connect!</p>
+        <h2>Get In Touch</h2>
+        <p>Currently seeking software engineering, web development, and QA testing opportunities. Feel free to reach out
+          via email or LinkedIn—I'd welcome the chance to connect!</p>
         <div class="contact-links">
           <a href="mailto:neethatusuff05@gmail.com" class="btn primary">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -1098,6 +1315,48 @@
   </section>
 
   <footer>Neetha T Usuff · Kottayam, Kerala · </footer>
+
+  <!-- Certificate View-Only Preview Modal -->
+  <div id="cert-modal-backdrop" class="cert-modal-backdrop" onclick="handleBackdropClick(event)">
+    <div class="cert-modal" oncontextmenu="return false;">
+      <div class="cert-modal-header">
+        <div class="cert-modal-info">
+          <div class="cert-modal-icon-badge">
+            <i data-lucide="award"></i>
+          </div>
+          <div class="cert-modal-title-group">
+            <h3 id="cert-modal-title">Certificate Title</h3>
+            <p>
+              <span id="cert-modal-issuer">Issuer Name</span>
+              <span class="view-only-badge"><i data-lucide="lock" style="width:11px;height:11px;"></i> Preview Only
+                (Protected)</span>
+            </p>
+          </div>
+        </div>
+        <button type="button" class="cert-modal-close" onclick="closeCertPreview()"
+          aria-label="Close Certificate Preview">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="cert-modal-body" oncontextmenu="return false;">
+        <div class="cert-iframe-wrapper">
+          <div class="cert-iframe-protection-mask" title="View-Only Preview"></div>
+          <iframe id="cert-iframe" src="" title="Certificate Preview"></iframe>
+        </div>
+      </div>
+
+      <div class="cert-modal-footer">
+        <div class="cert-security-note">
+          <i data-lucide="shield-check" style="width:15px;height:15px;color:var(--teal);"></i>
+          <span>Document verification preview for <strong>Neetha T Usuff</strong></span>
+        </div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--ink-faint);">
+          🔒 Downloads Disabled
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
     const experience = [
@@ -1256,19 +1515,77 @@
       const el = document.createElement('div');
       el.className = 'cert';
 
-      el.innerHTML = `
-    <span class="mark">🏆</span>
-    <div class="cert-content">
-      <span class="name">${c.name}</span>
-      <span class="src">${c.issuer}</span>
+      const safeName = c.name.replace(/'/g, "\\'");
+      const safeIssuer = c.issuer.replace(/'/g, "\\'");
 
-      <a href="${c.file}" target="_blank" class="cert-link">
-        📄 View Certificate
-      </a>
-    </div>
-  `;
+      el.innerHTML = `
+        <div class="cert-icon-wrapper">
+          <i data-lucide="award"></i>
+        </div>
+        <div class="cert-content">
+          <span class="name">${c.name}</span>
+          <span class="src"><i data-lucide="shield-check" style="width:13px;height:13px;color:var(--teal);"></i> ${c.issuer}</span>
+
+          <button type="button" class="cert-link-btn" onclick="openCertPreview('${c.file}', '${safeName}', '${safeIssuer}')">
+            <i data-lucide="eye"></i> Preview Certificate
+          </button>
+        </div>
+      `;
 
       cg.appendChild(el);
+    });
+
+    function openCertPreview(fileUrl, title, issuer) {
+      const backdrop = document.getElementById('cert-modal-backdrop');
+      const iframe = document.getElementById('cert-iframe');
+      const titleEl = document.getElementById('cert-modal-title');
+      const issuerEl = document.getElementById('cert-modal-issuer');
+
+      if (backdrop && iframe) {
+        titleEl.textContent = title;
+        issuerEl.textContent = issuer;
+
+        // Hide toolbar & navigation controls in PDF preview to disable built-in download/print buttons
+        const viewOnlyUrl = fileUrl + '#toolbar=0&navpanes=0&scrollbar=0';
+        iframe.src = viewOnlyUrl;
+
+        backdrop.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+      }
+    }
+
+    function closeCertPreview() {
+      const backdrop = document.getElementById('cert-modal-backdrop');
+      const iframe = document.getElementById('cert-iframe');
+      if (backdrop) {
+        backdrop.classList.remove('active');
+        document.body.style.overflow = '';
+        if (iframe) {
+          iframe.src = '';
+        }
+      }
+    }
+
+    function handleBackdropClick(event) {
+      if (event.target.id === 'cert-modal-backdrop') {
+        closeCertPreview();
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeCertPreview();
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'p') {
+        const backdrop = document.getElementById('cert-modal-backdrop');
+        if (backdrop && backdrop.classList.contains('active')) {
+          e.preventDefault();
+        }
+      }
     });
 
     const observer = new IntersectionObserver((entries) => {
